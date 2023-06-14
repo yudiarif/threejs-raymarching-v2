@@ -26,7 +26,7 @@ class WebGL {
     this.addLight();
     this.render();
     this.onWindowResize();
-    this.settings();
+    //this.settings();
     this.mouseEvent();
   }
 
@@ -91,7 +91,8 @@ class WebGL {
     this.controls = new OrbitControls(this.camera, this.renderer.domElement);
     // this.controls.enableDamping = true;
     // this.controls.enablePan = true;
-    // this.controls.enableZoom = true;
+    this.controls.enableZoom = false;
+    this.controls.enableRotate = false;
   }
   onWindowResize() {
     this.camera.aspect = this.viewport.aspectRatio;

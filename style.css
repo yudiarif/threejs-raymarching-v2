@@ -7,3 +7,14 @@
   margin: 0;
   padding: 0;
 }
+.judul {
+  font-family: "ogg";
+  color: white;
+  z-index: 2;
+  position: absolute;
+  font-size: 4rem;
+  left: 50%;
+  top: 80%;
+  transform: translate(-50%, -75%);
+  letter-spacing: 5px;
+}
