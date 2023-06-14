@@ -1,4 +1,4 @@
-# threejs-raymarching
+# threejs-raymarching-v2
 
 using vite js vanilla
 

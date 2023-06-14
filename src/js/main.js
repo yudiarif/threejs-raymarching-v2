@@ -4,6 +4,7 @@ import vertex from "../shaders/vertex.glsl";
 import fragment from "../shaders/fragment.glsl";
 import GUI from "lil-gui";
 import matcap from "../img/matcap.png";
+import matcap2 from "../img/matcap1.png";
 
 class WebGL {
   constructor() {
@@ -25,7 +26,7 @@ class WebGL {
     this.addLight();
     this.render();
     this.onWindowResize();
-    //this.addSetting();
+    this.settings();
     this.mouseEvent();
   }
 
@@ -66,7 +67,14 @@ class WebGL {
       fragmentShader: fragment,
       side: THREE.DoubleSide,
       //wireframe: true,
-      uniforms: { matcap: { value: new THREE.TextureLoader().load(matcap) }, uTime: { value: 0 }, mouse: { value: new THREE.Vector2(0, 0) }, resolution: { value: new THREE.Vector4() } },
+      uniforms: {
+        matcap2: { value: new THREE.TextureLoader().load(matcap2) },
+        matcap: { value: new THREE.TextureLoader().load(matcap) },
+        uTime: { value: 0 },
+        progress: { value: 0 },
+        mouse: { value: new THREE.Vector2(0, 0) },
+        resolution: { value: new THREE.Vector4() },
+      },
     });
     //console.log(this.material.uniforms.uTime);
     this.mesh = new THREE.Mesh(this.geometry, this.material);
@@ -109,10 +117,20 @@ class WebGL {
 
     this.camera.updateProjectionMatrix();
   }
-
+  settings() {
+    this.settings = { progress: 0 };
+    this.gui = new GUI();
+    this.cameraFolder = this.gui.addFolder("camera");
+    this.cameraFolder.add(this.camera.position, "x", -5, 5);
+    this.cameraFolder.add(this.camera.position, "y", -5, 5);
+    this.cameraFolder.add(this.camera.position, "z", -5, 5);
+    this.cameraFolder.open();
+    this.gui.add(this.settings, "progress", 0, 1, 0.01);
+  }
   render() {
     this.time += 0.05;
     this.material.uniforms.uTime.value = this.time;
+    this.material.uniforms.progress.value = this.settings.progress;
     if (this.mouse) {
       this.material.uniforms.mouse.value = this.mouse;
     }
@@ -120,15 +138,6 @@ class WebGL {
     //console.log(this.material.uniforms.uTime);
     this.renderer.render(this.scene, this.camera);
     window.requestAnimationFrame(this.render.bind(this));
-  }
-
-  addSetting() {
-    this.gui = new GUI();
-    this.cameraFolder = this.gui.addFolder("camera");
-    this.cameraFolder.add(this.camera.position, "x", -5, 5);
-    this.cameraFolder.add(this.camera.position, "y", -5, 5);
-    this.cameraFolder.add(this.camera.position, "z", -5, 5);
-    this.cameraFolder.open();
   }
 }
 
